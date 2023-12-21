@@ -9,17 +9,12 @@ exports.Register = async (req, res) => {
     const { nom, email, password } = req.body;
     try {
         const existingUser = await User.findOne({ where: { email: email } });
-
         if (existingUser) {
-            return res.status(400).json({ error: 'Cet utilisateur existe déjà!' });
+            return res.status(400).json({ error: 'Cet email est deja utilisé !' });
         }
-
         const hashedPassword = await bcrypt.hash(password, 5);
-
         const newUser = await User.create({nom: nom, email: email, password: hashedPassword, role: 'CLIENT' });
-
         const token = jwt.sign({ email: newUser.email }, process.env.API_KEY, { expiresIn: '1h' });
-
         res.json({ token });
     } catch (error) {
         console.error('Error during user registration:', error);

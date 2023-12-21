@@ -1,0 +1,7 @@
+const express = require('express');
+const router = express.Router();
+const user_modelecontroller = require('../controllers/User_modeleController');
+
+router.get('/purchases', user_modelecontroller.getAllPurchases);
+
+module.exports = router;
