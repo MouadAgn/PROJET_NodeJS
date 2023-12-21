@@ -22,7 +22,7 @@ app.use('/users', UserRoute);
 
 app.use('/modeles', ModeleRoute);
 
-app.use("/options",optionsRoute);
+app.use("/options", optionsRoute);
 
 app.use("/purchases", User_modeleRoute );
 
