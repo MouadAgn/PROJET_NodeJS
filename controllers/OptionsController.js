@@ -1,32 +1,21 @@
 const pool = require("../database/database");
-const options = require("../models/OptionsModel");
+const Options = require("../models/OptionsModel");
 
 
-
-
-exports.createTableOptions = async (req, res) => {
-    try {
-      await options.sync({ force: true });
-      res.status(200).json("la table options est cree");
-    } catch (err) {
-      console.error("unable to connect to bd", err);
-      console.log(err);
-    }
-  };
   
-  /* 
   exports.createOptions = async (req, res) => {
     console.log(req.body);
-    let Options = req.body;
+    let options = req.body;
     try {
-      const newOptions = await options.create({
-        nom: Options.nom,
+      const newOptions = await Options.create({
+        nom: options.nom,
+        prix: options.prix,
       
       });
   
       res
         .status(200)
-        .json({ "auto-generated ID + nom ": newOptions.id + " " + newOptions.nom });
+        .json({ "auto-generated ID + nom ": newOptions.id + " " + newOptions.nom  });
     } catch (err) {
       console.error("unable to connect to bd", err);
       console.log(err);
@@ -34,23 +23,37 @@ exports.createTableOptions = async (req, res) => {
   };
   
   
-  
-  
-  exports.getAlloptions = async (req, res) => {
+
+
+  exports.getAllOptions = async (req, res) => {
     try {
-      let conn = await pool.getConnection();
-      console.log("lencement de la requete d'affichage");
-      const rows = await conn.query('SELECT * FROM  options');
-      console.log(rows);
-      res.status(200).json(rows);
+
+      const allOptions = await Options.findAll(); 
+      res.status(200).json(allOptions);
     } catch (err) {
-      console.log(err);
+      console.error("Error fetching all options", err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+
+  
+  exports.getOptionsById = async (req, res) => {
+    const optionsId = req.params.id; 
+  
+    try {
+      
+      const options = await Options.findByPk(optionsId);
+  
+      if (options) {
+        console.log("Option found:", options);
+        res.status(200).json(options);
+      } else {
+        res.status(404).json({ error: 'Option not found' });
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   };
   
-  
-  exports.getOptionsById = async (req, res) => {
-    res.status(200).send("hello");
-  };
-  
- */
+

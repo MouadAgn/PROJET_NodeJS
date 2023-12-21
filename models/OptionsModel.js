@@ -26,6 +26,7 @@ const options = sequelize.define("options",
   {
     sequelize,
     freezeTableName: true,
+    timestamps:false
   }
 );
 

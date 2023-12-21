@@ -12,4 +12,6 @@ sequelize.authenticate()
         console.error("Erreur d'authentification :", err);
     });
 
+
+    
 module.exports = sequelize
