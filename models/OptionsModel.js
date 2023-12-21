@@ -1,10 +1,11 @@
 
 const sequelize = require("../database/database");
 const { DataTypes } = require("sequelize");
+const Modele = require('./Modele')
 
 const options = sequelize.define("options",
   {
-    id: {
+    id_option: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -29,5 +30,8 @@ const options = sequelize.define("options",
     timestamps:false
   }
 );
+
+options.belongsToMany(Modele, { through: 'options_modele' });
+Modele.belongsToMany(options, { through: 'options_modele' });
 
 module.exports = options;
