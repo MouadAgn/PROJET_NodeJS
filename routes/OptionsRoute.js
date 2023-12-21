@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const optionsController = require("../controllers/OptionsController");
+const middlewareadmin = require('../middleware/admin');
 
-router.post("/create", optionsController.createOptions);
+router.post("/create", middlewareadmin.isAdmin, optionsController.createOptions);
 router.get("/alloptions", optionsController.getAllOptions);
 router.get("/:id", optionsController.getOptionsById);
 
