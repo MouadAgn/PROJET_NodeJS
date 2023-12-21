@@ -6,7 +6,8 @@
     const sequelize = require('./database/database')
     const ModeleRoute = require("./routes/ModeleRoute");
     const UserRoute = require("./routes/UserRoute");
-    
+    const jwt = require('jsonwebtoken');
+
     app.use(cors());
 
     app.use(bodyParser.json());

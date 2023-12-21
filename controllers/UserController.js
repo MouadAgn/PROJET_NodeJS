@@ -3,8 +3,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/UserModel');
 
 exports.Register = async (req, res) => {
-    const { email, password } = req.body;
-
+    const { nom, email, password } = req.body;
     try {
         const existingUser = await User.findOne({ where: { email } });
 
@@ -14,7 +13,7 @@ exports.Register = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 5);
 
-        const newUser = await User.create({ email, password: hashedPassword, role: 'client' });
+        const newUser = await User.create({nom: nom, email: email, password: hashedPassword, role: 'CLIENT' })
 
         const token = jwt.sign({ email: newUser.email }, process.env.API_KEY, { expiresIn: '1h' });
 

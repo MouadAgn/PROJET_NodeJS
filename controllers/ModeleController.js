@@ -1,6 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 const Modele = require('../models/Modele');
+const jwt = require('jsonwebtoken');
+
 
 exports.createModele = async (req, res) =>{
     console.log(req.body)
