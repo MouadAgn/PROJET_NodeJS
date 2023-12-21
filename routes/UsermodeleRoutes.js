@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const user_modelecontroller = require('../controllers/User_modeleController');
+const middlewareclient = require('../middleware/client');
+const middlewarecomptable = require('../middleware/comptable');
 
-router.get('/purchases', user_modelecontroller.getAllPurchases);
-router.post('/purchase/:id_modele', user_modelecontroller.purchase); 
-router.get('/purchases/total', user_modelecontroller.getMonthTotal);
+router.get('/allpurchases', middlewarecomptable.isComptable, user_modelecontroller.getAllPurchases);
+router.post('/:id_modele', middlewareclient.isClient, user_modelecontroller.purchase); 
+router.get('/total', middlewarecomptable.isComptable, user_modelecontroller.getMonthTotal);
 
 module.exports = router;

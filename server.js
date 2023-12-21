@@ -20,11 +20,11 @@ app.use(bodyParser.json());
 
 app.use('/users', UserRoute);
 
-app.use('/modele', ModeleRoute);
+app.use('/modeles', ModeleRoute);
 
 app.use("/options",optionsRoute);
 
-app.use("/purchase", User_modeleRoute );
+app.use("/purchases", User_modeleRoute );
 
 const port = 3000;
 app.listen(port, () => {
