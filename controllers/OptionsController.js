@@ -6,7 +6,14 @@ const Options = require("../models/OptionsModel");
   exports.createOptions = async (req, res) => {
     console.log(req.body);
     let options = req.body;
+    const { nom } = req.body
     try {
+      const existingOption = await Options.findOne({ where: { nom } });
+
+        if (existingOption) {
+            return res.status(400).json({ error: 'Cet Option existe déjà!' });
+        }
+
       const newOptions = await Options.create({
         nom: options.nom,
         prix: options.prix,
@@ -15,7 +22,7 @@ const Options = require("../models/OptionsModel");
   
       res
         .status(200)
-        .json({ "auto-generated ID + nom ": newOptions.id + " " + newOptions.nom  });
+        .json({ "auto-generated ID + nom ": newOptions.id + " " + newOptions.nom  + " " + newOptions.prix });
     } catch (err) {
       console.error("unable to connect to bd", err);
       console.log(err);

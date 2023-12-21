@@ -6,6 +6,8 @@ const app = express();
 const sequelize = require('./database/database')
 const ModeleRoute = require("./routes/ModeleRoute");
 const UserRoute = require("./routes/UserRoute");
+const optionsRoute = require("./routes/OptionsRoute");
+
 const jwt = require('jsonwebtoken');
 
 app.use(cors());
@@ -21,7 +23,7 @@ app.use('/', UserRoute);
 app.use('/modele', ModeleRoute);
 app.use('/', ModeleRoute);
 
-const optionsRoute = require("./routes/OptionsRoute");
+app.use("/options",optionsRoute);
 
 const port = 3000;
 app.listen(port, () => {
