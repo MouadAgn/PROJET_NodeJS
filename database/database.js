@@ -1,15 +1,15 @@
 const { Sequelize } = require('sequelize');
 
+const sequelize = new Sequelize('projet_nodejs', 'root', '', { 
+    host: 'localhost', dialect: 'mariadb',
+ });
 
-const sequelize = new Sequelize('projet_nodejs', 'root', '',{
-    host: 'localhost',
-    dialect: 'mariadb'
-});
+sequelize.authenticate()
+    .then(() => {
+        console.log("Authentification réussie");
+    })
+    .catch((err) => {
+        console.error("Erreur d'authentification :", err);
+    });
 
-sequelize.authenticate().then(()=>{
-    console.log("authentification réussit ")
-}).catch((err)=>{
-    console.log("erreur: ".err)
-})
-
-module.exports = sequelize;
+module.exports = sequelize
