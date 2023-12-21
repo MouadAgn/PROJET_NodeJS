@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const user_modelecontroller = require('../controllers/User_modeleController');
 
-router.post('/createTable', user_modelecontroller.createTableUser_modele);
 router.get('/purchases', user_modelecontroller.getAllPurchases);
 router.post('/purchase/:id_modele', user_modelecontroller.purchase); 
 router.get('/purchases/total', user_modelecontroller.getMonthTotal);

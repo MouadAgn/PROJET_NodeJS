@@ -28,7 +28,7 @@ exports.purchase = async (req, res) => {
         });
         const prixOption = await Option.sum('prix', {
             where: {
-                id_option: req.body.optionId
+                id_option: 1
             }
         });
         total = prixModele + prixOption;

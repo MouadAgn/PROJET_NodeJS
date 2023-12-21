@@ -6,21 +6,25 @@ const app = express();
 const sequelize = require('./database/database')
 const ModeleRoute = require("./routes/ModeleRoute");
 const UserRoute = require("./routes/UserRoute");
-const jwt = require('jsonwebtoken');
+const optionsRoute = require("./routes/OptionsRoute");
+const User_modeleRoute = require("./routes/UsermodeleRoutes");
 
 app.use(cors());
-
 app.use(bodyParser.json());
 
-const Modele = require('./models/Modele');
+// let tableslaunch = async () => {
+//     await sequelize.sync({ force: true });
+// };
+// tableslaunch();
 
 
 app.use('/users', UserRoute);
-app.use('/', UserRoute);
 
 app.use('/modele', ModeleRoute);
-app.use('/', ModeleRoute);
 
+app.use("/options",optionsRoute);
+
+app.use("/purchase", User_modeleRoute );
 
 const port = 3000;
 app.listen(port, () => {
