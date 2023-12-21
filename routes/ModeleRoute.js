@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const app = express();
-const utilisateurController = require('../controllers/UtilisateurController');  // Assurez-vous du chemin correct
+const ModeleController = require('../controllers/ModeleController');  // Assurez-vous du chemin correct
 
-// Routes pour Utilisateur
-router.post('/create', utilisateurController.createUtilisateur);  // Ajoutez cette ligne pour la création d'un utilisateur
+// Routes pour Modele
+router.get('/', ModeleController.getAllModeles);  // Ajoutez cette ligne pour la création d'un utilisateur
 // router.get('/:id/dieux', utilisateurController.getUtilisateurDieux);
 
 
