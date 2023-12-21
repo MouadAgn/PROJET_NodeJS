@@ -1,33 +1,52 @@
+const { Sequelize, DataTypes } = require('sequelize');
+const bcrypt = require('bcrypt');
 const Modele = require('../models/Modele');
-const express = require('express');
-const app = express();
-app.use(express.json());
 
-// Endpoint pour récupérer tous les modèles
-app.get('/modeles', async (req, res) => {
-  try {
-    const modeles = await Modele.findAll();
-    res.json(modeles);
-  } catch (error) {
-    console.error('Erreur lors de la récupération des modèles :', error);
-    res.status(500).json({ error: 'Erreur serveur' });
-  }
-});
+exports.createModele = async (req, res) =>{
+    console.log(req.body)
+    let monmodele = req.body
+    const { nom } = req.body
+    try{
 
+        const existingModele = await Modele.findOne({ where: { nom } });
 
-// Endpoint pour récupérer un modèle par ID
-app.get('/modeles/:id', async (req, res) => {
-    const modeleId = req.params.id;
-    try {
-      const modele = await Modele.findByPk(modeleId);
-      if (modele) {
-        res.json(modele);
-      } else {
-        res.status(404).json({ message: 'Modèle non trouvé' });
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération du modèle :', error);
-      res.status(500).json({ error: 'Erreur serveur' });
+        if (existingModele) {
+            return res.status(400).json({ error: 'Ce modele existe déjà!' });
+        }
+
+        const newModele = await Modele.create({ nom: monmodele.nom, carburant: monmodele.carburant, portes: monmodele.portes, gabarit: monmodele.gabarit, poids: monmodele.poids, prix: monmodele.prix  });
+        res.status(200).json({
+            "auto-generated ID": newModele.id,
+            "nom": newModele.nom,
+            "carburant": newModele.carburant,
+            "portes": newModele.portes,
+            "gabarit": newModele.gabarit,
+            "poids": newModele.poids,
+            "prix": newModele.prix
+          });
     }
-  });
-  
+    catch(err){
+        console.error('Erreur lors de la création du modele :', err);
+        res.status(500).json({ error: 'Erreur serveur lors de la création du modele.' });
+    }
+};
+
+exports.getAllModeles = async (req, res) => {
+    try {
+      const models = await Modele.findAll();
+      res.json(models);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des utilisateurs :', error);
+      res.status(500).json({ error: 'Erreur serveur' });
+    }
+  };
+
+// exports.getAllUsers = async (req, res) => {
+//   try {
+//     const user = await User.findAll();
+//     res.json(user);
+//   } catch (error) {
+//     console.error('Erreur lors de la récupération des utilisateurs :', error);
+//     res.status(500).json({ error: 'Erreur serveur' });
+//   }
+// };
