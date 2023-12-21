@@ -6,6 +6,7 @@ const ModeleController = require('../controllers/ModeleController');  // Assurez
 // Routes pour Modele
 router.post('/Create', ModeleController.createModele);  // Ajoutez cette ligne pour la création d'un utilisateur
 router.get('/', ModeleController.getAllModeles);
+router.get('/modele/:id', ModeleController.getModeleById);
 
 // Exportez le routeur
 module.exports = router;

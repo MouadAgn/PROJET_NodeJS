@@ -14,10 +14,10 @@
     const Modele = require('./models/Modele');
     // Modele.sync({ alter: true });
 
+    app.use('/users', UserRoute);
     app.use('/', UserRoute);
 
     app.use('/modele', ModeleRoute);
-
     app.use('/', ModeleRoute);
 
     

@@ -31,6 +31,7 @@ exports.createModele = async (req, res) =>{
     }
 };
 
+//Get all modeles
 exports.getAllModeles = async (req, res) => {
     try {
       const models = await Modele.findAll();
@@ -41,12 +42,21 @@ exports.getAllModeles = async (req, res) => {
     }
   };
 
-// exports.getAllUsers = async (req, res) => {
-//   try {
-//     const user = await User.findAll();
-//     res.json(user);
-//   } catch (error) {
-//     console.error('Erreur lors de la récupération des utilisateurs :', error);
-//     res.status(500).json({ error: 'Erreur serveur' });
-//   }
-// };
+//Get Modele by ID
+
+exports.getModeleById= async (req, res) => {
+    const modeleId = req.params.id;
+    try {
+        const modele = await Modele.findByPk(modeleId);
+    
+        if (modele) {
+          res.status(200).json(modele);
+        } else {
+          res.status(404).json({ message: 'Modèle non trouvé' });
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération du modèle par ID :', error);
+        res.status(500).json({ error: 'Erreur serveur lors de la récupération du modèle par ID.' });
+      }
+  };
+
