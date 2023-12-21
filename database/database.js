@@ -1,5 +1,6 @@
 const { Sequelize } = require('sequelize');
 
+
 const sequelize = new Sequelize('projet_nodejs', 'root', '', { 
     host: 'localhost', dialect: 'mariadb',
  });
