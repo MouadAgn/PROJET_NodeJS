@@ -3,7 +3,6 @@ const Modele = require('../models/Modele');
 const sequelize = require('sequelize');
 const Option = require('../models/OptionsModel');
 const User = require('../models/UserModel');
-const jwt = require('jsonwebtoken');
 
 exports.createTableUser_modele = async (req, res) => {
     await User_modele.sync({force: true});

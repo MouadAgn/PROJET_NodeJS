@@ -7,8 +7,8 @@ router.post('/create', middlewareadmin.isAdmin, ModeleController.createModele);
 router.get('/', ModeleController.getAllModeles); 
 router.get('/:id', ModeleController.getModeleById); 
 router.get('/opmodassocier/:id', ModeleController.getAllOptionModele);
-router.delete('/delete/:id', middlewareadmin.isAdmin, ModeleController.deleteModele);
-router.put('/update/:id', middlewareadmin.isAdmin, ModeleController.updateModele);
+router.post('/delete/:id', ModeleController.deleteModele);
+router.put('/update/:id', ModeleController.updateModele);
 
 module.exports = router;
  
