@@ -9,7 +9,7 @@ router.get('/', ModeleController.getAllModeles); //Ligne pour l'affichage de tou
 router.get('/:id', ModeleController.getModeleById); //Ligne pour l'affichage des modeles au fonction de l'ID
 router.get('/opmodassocier/:id', ModeleController.getAllOptionModele);
 router.post('/delete/:id', ModeleController.deleteModele);
-router.post('/update/:id', ModeleController.updateModele);
+router.put('/update/:id', ModeleController.updateModele);
 
 
 
