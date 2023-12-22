@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter une Option</title>
+    <!-- Ajout de la référence à Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Ajout de la référence à SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css">
+    <style>
+        .navbar {
+            background-color: #3498db; /* Couleur de fond de la navbar */
+        }
+
+        .navbar-brand {
+            color: #fff; /* Couleur du texte du logo */
+        }
+
+        .navbar-toggler-icon {
+            background-color: #fff; /* Couleur de l'icône du bouton de bascule */
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff; /* Couleur du texte des liens de la navbar */
+        }
+
+        .navbar-nav .nav-link.active {
+            color: #f39c12; /* Couleur du texte du lien actif */
+        }
+    </style>
+</head>
+<body>
+    <!-- La barre de navigation -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Raudi</a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    <a class="nav-link" href="login.html">Login</a>
+                    <a class="nav-link" href="register.html">Register</a>
+                    <a class="nav-link" href="history.html">History</a>
+                    <a class="nav-link" href="adminpanel.html">Admin Panel</a>
+                    <a class="nav-link" href="ajouteroption.html">Option</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Le contenu principal -->
+    <div class="container mt-5">
+        <h1>Ajouter une option a un modele</h1><br>
+
+        <form id="ajouter_option_model_form">
+            <!-- Champ pour le nom du modèle -->
+            <div class="form-group">
+                <label for="nom_model">Nom du modèle</label>
+                <input type="text" class="form-control" id="nom_model" readonly>
+            </div>
+
+            <!-- Champ pour le nom de l'option -->
+            <div class="form-group">
+
+                <div class="form-group">
+                    <label>Options disponibles</label>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nom de l'option</th>
+                                <th>Prix</th>
+                                <th>Sélectionner</th>
+                            </tr>
+                        </thead>
+                        <tbody id="optionsTable">
+                            <!-- Les options seront ajoutées dynamiquement ici depuis la base de données -->
+                        </tbody>
+                    </table>
+                </div>  
+            </div>
+            <!-- Bouton pour ajouter l'option -->
+            <button type="button" class="btn btn-primary" onclick="ajouterOption()">Ajouter Option</button>
+        </form>
+    </div>
+
+    <!-- Ajout de la référence à Bootstrap JS et Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Ajout de la référence à SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js"></script>
+
+    <!-- Script pour gérer l'ajout de l'option -->
+    <script>
+  document.addEventListener("DOMContentLoaded", async function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const ajouter_option_model_form = document.getElementById("ajouter_option_model_form");
+    const optionsDropdown = document.getElementById("options"); // Utiliser la variable correcte
+
+    // Récupérer l'ID du modèle depuis l'URL
+    idModele = urlParams.get('id');
+
+    // Effectuer une requête pour obtenir les détails du modèle
+    const response = await fetch(`http://localhost:3000/modeles/${idModele}`);
+    const data = await response.json();
+
+    // Mettre à jour les champs du formulaire avec les informations du modèle
+    document.getElementById("nom_model").value = data.nom || "";
+
+    // Charger les options depuis la base de données
+    const optionsResponse = await fetch('http://localhost:3000/options');
+    const optionsData = await optionsResponse.json();
+
+    // Ajouter les options au menu déroulant
+    optionsData.forEach(option => {
+        const optionElement = document.createElement("option");
+        optionElement.value = option.nom;
+        optionElement.text = option.nom;
+
+        optionsDropdown.appendChild(optionElement);
+    });
+});
+document.addEventListener("DOMContentLoaded", async function () {
+    const optionsTable = document.getElementById("optionsTable");
+
+    // Charger les options depuis la base de données
+    const optionsResponse = await fetch('http://localhost:3000/options');
+    const optionsData = await optionsResponse.json();
+
+    // Ajouter les options au tableau
+    optionsData.forEach(option => {
+        const row = optionsTable.insertRow();
+        
+        // Colonne pour le nom de l'option
+        const cellNom = row.insertCell(0);
+        cellNom.innerHTML = option.nom;
+
+        // Colonne pour le prix
+        const cellPrix = row.insertCell(1);
+        cellPrix.innerHTML = option.prix;
+
+        // Colonne pour la sélection (ajouter une case à cocher)
+        const cellSelection = row.insertCell(2);
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = option.nom; // Vous pouvez utiliser une valeur unique ici
+        cellSelection.appendChild(checkbox);
+    });
+});
+
+
+function ajouterOption() {
+    // Validation supplémentaire avant l'envoi du formulaire
+    const nom_model = document.getElementById('nom_model').value;
+    const nom_option = document.getElementById('options').value; // Utiliser le bon ID
+    const prix = document.getElementById('prix').value;
+
+    if (!nom_option || !prix) {
+        // Afficher une alerte en utilisant la bibliothèque SweetAlert2
+        Swal.fire({
+            icon: 'error',
+            title: 'Erreur',
+            text: 'Veuillez remplir tous les champs obligatoires.',
+        });
+        return; // Empêche l'envoi du formulaire si des champs sont vides
+    }
+
+    // Le reste de votre code pour envoyer la requête au serveur
+    // ...
+
+    // Afficher une alerte de succès en utilisant la bibliothèque SweetAlert2
+    Swal.fire({
+        icon: 'success',
+        title: 'Succès',
+        text: `Option ajoutée avec succès au modèle ${nom_model} !`,
+    });
+}
+Document.addEventListener("DOMContentLoaded", function () {
+    // ... (votre code existant)
+
+    // Ajouter un gestionnaire d'événements pour les cases à cocher
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', recalculerPrix);
+    });
+});
+
+function recalculerPrix() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    let prixTotal = 0;
+
+    checkboxes.forEach(checkbox => {
+        // Vérifier si la case à cocher est cochée
+        if (checkbox.checked) {
+            // Récupérer le prix de l'option associée à la case à cocher
+            const optionPrix = parseFloat(checkbox.getAttribute('data-prix'));
+
+            // Ajouter le prix au total
+            prixTotal += optionPrix;
+        }
+    });
+
+    // Mettre à jour le texte en bas avec le prix total
+    const prixTotalText = document.getElementById('prixTotal');
+    prixTotalText.textContent = `Prix total : ${prixTotal} €`;
+}
+
+    </script><br><br>
+
+
+</body>
+</html>
