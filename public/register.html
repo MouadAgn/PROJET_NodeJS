@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="
+    https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js
+    "></script>
+    <link href="
+    https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
+    " rel="stylesheet">
     
     <title>Register Page</title>
     <style>
@@ -65,82 +71,103 @@ body {
                     <a class="nav-link" href="history.html">History</a>
                     <a class="nav-link" href="customize.html">Customize</a>
                     <a class="nav-link" href="adminpanel.html">Admin Panel</a>
-                   
+                    <a class="nav-link" href="ajouteroption.html">Option</a>
                 </div>
             </div>
         </div>
     </nav>
-<br><br>
-<h1> Welcome to Raudi</h1>
-<h1> Sign up </h1><br>
-<div class="container register-container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    Register
-                </div>
-                <div class="card-body">
-                    <form id="registerForm">
-                        <div class="form-group">
-                            <label for="name">Name:</label>
-                            <input type="text" class="form-control" id="nom" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="text" class="form-control" id="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input type="password" class="form-control" id="password" required>
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="registerUser()">Register</button>
-                    </form>
+
+    <br><br>
+
+    <h1>Welcome to Raudi</h1>
+    <h1>Sign up</h1><br>
+
+    <div class="container register-container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Register
+                    </div>
+                    <div class="card-body">
+                        <form id="registerForm">
+                            <div class="form-group">
+                                <label for="nom">Name:</label>
+                                <input type="text" class="form-control" id="nom" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <input type="password" class="form-control" id="password" required>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="registerUser()">Register</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<script>
-      function redirectToHome() {
-        window.location.replace('index.html');
-    }
-    function registerUser() {
-        var nom = document.getElementById("nom").value;
-        var email = document.getElementById("email").value;
-        var password = document.getElementById("password").value;
 
-        fetch('http://localhost:3000/users/register', {
-            method: 'POST',
+    <!-- ... Autres parties du code ... -->
+
+<script>
+    function modifierModele() {
+        const nom = document.getElementById("nom").value;
+        const carburant = document.getElementById("carburant").value;
+        const portes = document.getElementById("portes").value;
+        const gabarit = document.getElementById("gabarit").value;
+        const poids = document.getElementById("poids").value;
+        const prix = document.getElementById("prix").value;
+
+        // Vérifier si tous les champs sont remplis
+        if (nom === '' || carburant === '' || portes === '' || gabarit === '' || poids === '' || prix === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Erreur',
+                text: 'Veuillez compléter tous les champs',
+            });
+            return false; // Empêcher la soumission du formulaire
+        }
+
+        // Effectuer une requête AJAX pour mettre à jour le modèle
+        fetch(`http://localhost:3000/modeles/update/${idModele}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                nom: nom, 
-                email: email,
-                password: password,
+                nom: nom,
+                carburant: carburant,
+                portes: portes,
+                gabarit: gabarit,
+                poids: poids,
+                prix: prix,
+                // Ajoutez d'autres champs ici selon les propriétés de votre modèle
             }),
         })
         .then(response => response.json())
         .then(data => {
-            if (data.token) {
-                alert('Registration successful! Token: ' + data.token);
-
-           
-                redirectToHome();
-
-              
-            } else {
-                alert('Registration failed. ' + data.error);
-            }
+            Swal.fire({
+                icon: 'success',
+                title: 'Succès',
+                text: data.message,
+            }).then(() => {
+                // Rediriger vers adminpanel.html
+                window.location.href = 'adminpanel.html';
+            });
         })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again.');
+        .catch((error) => {
+            console.error('Erreur lors de la modification:', error);
         });
+
+        return false; // Empêcher la soumission du formulaire
     }
 </script>
 
+<!-- ... Autres parties du code ... -->
 
 </body>
 </html>
