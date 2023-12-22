@@ -54,3 +54,24 @@ exports.getAllUsers = async (req, res) => {
     res.status(500).json({ error: 'Erreur serveur' });
   }
 };
+
+exports.logout = async (req, res) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+      return res.status(401).json({ message: 'Token manquant' });
+  }
+
+  try {
+      const decoded = jwt.verify(token, process.env.API_KEY);
+
+      const user = await User.findByPk(decoded.id_user);
+      const currentRevokedTokens = user.revokedTokens || '';
+
+      await user.update({ revokedTokens: `${currentRevokedTokens},${token}` });
+
+      res.status(200).json({ message: 'Déconnexion réussie' });
+  } catch (error) {
+      res.status(401).json({ message: 'Token invalide' });
+  }
+}
