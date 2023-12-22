@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier Modèle</title>
+    <!-- Ajout de la référence à Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>            .navbar {
+    background-color: #3498db; /* Couleur de fond de la navbar */
+}
+
+.navbar-brand {
+    color: #fff; /* Couleur du texte du logo */
+}
+
+.navbar-toggler-icon {
+    background-color: #fff; /* Couleur de l'icône du bouton de bascule */
+}
+
+.navbar-nav .nav-link {
+    color: #fff; /* Couleur du texte des liens de la navbar */
+}
+
+.navbar-nav .nav-link.active {
+    color: #f39c12; /* Couleur du texte du lien actif */
+}</style>
+<body class="container">
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">Raudi</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    <a class="nav-link" href="login.html">Login</a>
+                    <a class="nav-link" href="register.html">Register</a>
+                    <a class="nav-link" href="history.html">History</a>
+                    <a class="nav-link" href="customize.html">Customize</a>
+                    <a class="nav-link" href="adminpanel.html">Admin Panel</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <h2 class="mt-4">Modifier Modèle</h2>
+
+    <!-- Formulaire de modification -->
+    <form id="editModeleForm" class="mt-4">
+        <div class="form-group">
+            <label for="nom">Nom :</label>
+            <input type="text" class="form-control" id="nom" name="nom" value="">
+        </div>
+        <div class="form-group">
+            <label for="carburant">Carburant :</label>
+            <input type="text" class="form-control" id="carburant" name="carburant">
+        </div>
+        <div class="form-group">
+            <label for="portes">Portes :</label>
+            <input type="text" class="form-control" id="portes" name="portes">
+        </div>
+        <div class="form-group">
+            <label for="gabarit">Gabarit :</label>
+            <input type="text" class="form-control" id="gabarit" name="gabarit">
+        </div>
+        <div class="form-group">
+            <label for="poids">Poids :</label>
+            <input type="text" class="form-control" id="poids" name="poids">
+        </div>
+        <div class="form-group">
+            <label for="prix">Prix :</label>
+            <input type="text" class="form-control" id="prix" name="prix" >
+        </div>
+        <!-- Ajoutez d'autres champs ici selon les propriétés de votre modèle -->
+        <div class="form-group">
+            <button type="button" class="btn btn-primary" onclick="modifierModele()">Modifier</button>
+        </div>
+    </form>
+
+    <!-- Ajout de la référence à Bootstrap JS et Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        let idModele; // Déclarer la variable à un niveau plus élevé
+
+        document.addEventListener("DOMContentLoaded", async function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const editModeleForm = document.getElementById("editModeleForm");
+
+            // Récupérer l'ID du modèle depuis l'URL
+            idModele = urlParams.get('id');
+
+            // Effectuer une requête pour obtenir les détails du modèle
+            const response = await fetch(`http://localhost:3000/modeles/${idModele}`);
+            const data = await response.json();
+
+            // Mettre à jour les champs du formulaire avec les informations du modèle
+            document.getElementById("nom").value = data.nom || "";
+            document.getElementById("carburant").value = data.carburant || "";
+            document.getElementById("portes").value = data.portes || "";
+            document.getElementById("gabarit").value = data.gabarit || "";
+            document.getElementById("poids").value = data.poids || "";
+            document.getElementById("prix").value = data.prix || "";
+        });
+
+        function modifierModele() {
+            const nom = document.getElementById("nom").value;
+            const carburant = document.getElementById("carburant").value;
+            const portes = document.getElementById("portes").value;
+            const gabarit = document.getElementById("gabarit").value;
+            const poids = document.getElementById("poids").value;
+            const prix = document.getElementById("prix").value;
+
+            // Effectuer une requête AJAX pour mettre à jour le modèle
+            fetch(`http://localhost:3000/modeles/update/${idModele}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nom: nom,
+                    carburant: carburant,
+                    portes: portes,
+                    gabarit: gabarit,
+                    poids: poids,
+                    prix: prix,
+                    // Ajoutez d'autres champs ici selon les propriétés de votre modèle
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); // Afficher un message ou effectuer d'autres actions
+                // Rediriger l'utilisateur après la modification, si nécessaire
+            })
+            .catch((error) => {
+                console.error('Erreur lors de la modification:', error);
+            });
+        }
+    </script>  
+
+</body>
+</html>

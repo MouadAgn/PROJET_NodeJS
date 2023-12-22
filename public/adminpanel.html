@@ -84,6 +84,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
             <a class="nav-link" href="register.html">Register</a>
             <a class="nav-link" href="history.html">History</a>
             <a class="nav-link" href="adminpanel.html">Admin Panel</a>
+            <a class="nav-link" href="ajouteroption.html">Option</a>
 
      
           </div>
@@ -112,9 +113,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
 
     <!-- Script pour récupérer les modèles depuis le contrôleur -->
     <script>
-        function redirigerVersCustomize() {
-            window.location.href =  ' ';
-        }
+        
     
         function supprimerModele(idModele) {
             var confirmation = confirm("Voulez-vous vraiment supprimer ce modèle?");
@@ -150,32 +149,32 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
                         const modeleCard = document.createElement("div");
                         modeleCard.className = "col-md-4 mb-4";
                         modeleCard.innerHTML = `
-                            <div class="card">
-                                <img src="Design.png" class="card-img-top" alt="Image du Modèle">
-                                <div class="card-body">
-                                    <h5 class="card-title">${modele.nom}</h5>
-                                    <button class="btn btn-primary" data-toggle="collapse" data-target="#details${modele.nom}">
-                                        Détails
-                                    </button>
-                                    <button class="btn btn-danger" onclick="supprimerModele(${modele.id_modele})">
-                                        Supprimer
-                                    </button><br>
-                                    <button class="btn btn-primary" onclick="redirigerVersCustomize()">
-                                        Ajouter Option
-                                    </button>
-                                    <button class="btn btn-primary" onclick="redirigerVersEditModele(${modele.id_modele})">
-                                        Modifier
-                                    </button>
-                                    <br>
-                                    <div id="details${modele.nom}" class="collapse"><br>
-                                        <p><b>Carburant:</b> ${modele.carburant}</p>
-                                        <p><b>Portes:</b> ${modele.portes}</p>
-                                        <p><b>Gabarit:</b> ${modele.gabarit}</p>
-                                        <p><b>Poids:</b> ${modele.poids}</p>
-                                        <p><b>Prix:</b> ${modele.prix}</p>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="card">
+    <img src="Design.png" class="card-img-top" alt="Image du Modèle">
+    <div class="card-body">
+        <h5 class="card-title">${modele.nom}</h5>
+        <button class="btn btn-primary btn-block" data-toggle="collapse" data-target="#details${modele.nom}">
+            Détails
+        </button>
+        <button class="btn btn-danger btn-block" onclick="supprimerModele(${modele.id_modele})">
+            Supprimer
+        </button>
+        <button class="btn btn-primary btn-block" onclick="redirigerVersajouteroption(${modele.id_modele})">
+            Ajouter Option
+        </button>
+        <button class="btn btn-primary btn-block" onclick="redirigerVersEditModele(${modele.id_modele})">
+            Modifier
+        </button>
+        <div id="details${modele.nom}" class="collapse mt-3">
+            <p><b>Carburant:</b> ${modele.carburant}</p>
+            <p><b>Portes:</b> ${modele.portes}</p>
+            <p><b>Gabarit:</b> ${modele.gabarit}</p>
+            <p><b>Poids:</b> ${modele.poids}</p>
+            <p><b>Prix:</b> ${modele.prix}</p>
+        </div>
+    </div>
+</div>
+
                     `;
                         modeleContainer.appendChild(modeleCard);
                     });
@@ -188,6 +187,11 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
         function redirigerVersEditModele(idModele) {
             // Rediriger vers EditModele.html avec l'ID du modèle
             window.location.href = `editModele.html?id=${idModele}`;
+        }
+
+        function redirigerVersajouteroption(idModele) {
+            // Rediriger vers EditModele.html avec l'ID du modèle
+            window.location.href = `ajouteroption_modele.html?id=${idModele}`;
         }
 
     
