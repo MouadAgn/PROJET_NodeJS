@@ -13,40 +13,69 @@
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
     <style>
-      /* Ajoutez vos styles personnalisés ici si nécessaire */
-    </style>
+            
+   
+      .navbar {
+          background-color: #3498db; 
+      }
+
+      .navbar-brand {
+          color: #fff; 
+      }
+
+      .navbar-toggler-icon {
+          background-color: #fff;
+      }
+
+      .navbar-nav .nav-link {
+          color: #fff;
+      }
+
+      .navbar-nav .nav-link.active {
+          color: #f39c12; 
+      }
+
+      .styled-paragraph {
+      font-size: 1.25rem;
+      color: #3498db; 
+      font-weight: bold;
+      margin-top: 8px;
+      }
+      
+  </style>
   </head>
 
   <body>
-    <!-- Barre de navigation -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
+    <!-- Barre de navigation --> <nav class="navbar navbar-expand-lg">
+      <div class="container">
         <a class="navbar-brand" href="#">Raudi</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="index.html"
-              >Home</a
+            <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+            
+                
+            <a
+              class="nav-link"
+              href="history.html"
+              id="history"
             >
-            <a class="nav-link" href="login.html">Login</a>
-            <a class="nav-link" href="register.html">Register</a>
-            <a class="nav-link" href="history.html">History</a>
+              History
+            </a>
 
-     
+               
+              <a id="btnRegister" class="nav-link" href="register.html">Register</a>
+              <!-- ajout de la function toggle -->
+              <button id="btnLogin" class="btn btn-info" onclick="toggleLogin()">Login</button>
+
+            </button>
           </div>
-        </div>
       </div>
-    </nav>
+  </div>
+</nav>
 
     <div class="container mt-4">
       <h2>Liste des Modèles</h2>
@@ -55,22 +84,34 @@
         <!-- Les modèles  -->
       </div>
 
-      <button id="btnAjouter" class="btn btn-info">
-        <a href="ajoutModel.html"> Ajouter un modele</a>
-      </button>
+      <button id="btnAjouter" class="btn btn-info" style="display: none;">
+        <a href="ajoutModel.html"> Ajouter un modèle</a>
+    </button>
     </div>
 
-    <!-- Bootstrap JavaScript (jQuery, Popper.js, Bootstrap JS) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <!-- Script pour récupérer les modèles depuis le contrôleur -->
     <script>
+      
+// function pour le redirection vers l la page custom
         function redirigerVersCustomize() {
         window.location.href = 'customize.html';
     }
+    const userIsLoggedIn = false; // Remplacez cela par votre logique réelle
 
+function toggleLogin() {
+    const loginButton = document.getElementById("btnLogin");
+
+    if (userIsLoggedIn) {
+        // L'utilisateur est connecté, ajoutez le code pour la déconnexion ici
+        // Par exemple, redirigez l'utilisateur vers la page de déconnexion
+        window.location.href = 'logout.html';
+    } else {
+        // L'utilisateur n'est pas connecté, ajoutez le code pour la connexion ici
+        // Par exemple, redirigez l'utilisateur vers la page de connexion
+        window.location.href = 'login.html';
+    }
+}
     document.addEventListener("DOMContentLoaded", function () {
     
     });
@@ -96,6 +137,7 @@
                                     <button class="btn btn-primary" onclick="redirigerVersCustomize()">
                                             Acheter
                                         </button>
+                                        
 
                                     
                                     <br>
@@ -117,6 +159,67 @@
                         `;
               modeleContainer.appendChild(modeleCard);
             });
+
+
+//function logout
+
+            function logout() {
+    
+    const authToken = localStorage.getItem('token');
+
+    
+    if (!authToken) {
+        console.error('Token d\'authentification non trouvé.');
+        return;
+    }
+
+    // Envoyez une requête au serveur pour invalider la session ou le jeton
+    fetch('http://localhost:3000/users/logout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + authToken
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            // La déconnexion a réussi, supprimez le token et redirigez l'utilisateur vers la page de connexion
+            localStorage.removeItem('token');
+            window.location.href = 'login.html';
+        } else {
+            
+            console.error('Erreur lors de la déconnexion');
+        }
+    })
+    .catch(error => {
+        console.error('Erreur lors de la déconnexion:', error);
+    });
+}
+
+const userRolecInput = document.getElementById('userRole');
+      const userRolec = userRolecInput.value;
+
+      // Vérifiez le rôle comptable 
+      const history= document.getElementById('history');
+  
+      if (userRolec === 'COMPTABLE') {
+        history.style.display = 'block';
+   
+      } else {
+        history.style.display = 'none';
+   
+      }
+
+              // Récupérez le rôle de l'utilisateur depuis le backend
+              const userRoleInput = document.getElementById('userRole');
+                    const userRole = userRoleInput.value;
+
+                    // Vérifiez le rôle avant d'afficher le bouton Ajouter un modèle
+                    const btnAjouter = document.getElementById('btnAjouter');
+                    if (userRole === 'ADMIN') {
+                        btnAjouter.style.display = 'block';
+                    }
+                    
           })
           .catch((error) =>
             console.error("Erreur lors de la récupération des modèles:", error)

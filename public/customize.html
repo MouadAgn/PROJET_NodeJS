@@ -1,37 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Personnaliser</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body class="container mt-5">
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Raudi</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <a class="nav-link active" aria-current="page" href="index.html">Home</a>
-              <a class="nav-link" href="login.html">Login</a>
-              <a class="nav-link" href="register.html">Register</a>
-              <a class="nav-link" href="history.html">History</a>
-    
-            </div>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      /* Ajoutez vos styles personnalisés ici */
+      .navbar {
+        background-color: #3498db; /* Couleur de fond de la navbar */
+      }
+
+      .navbar-brand {
+        color: #fff; /* Couleur du texte du logo */
+      }
+
+      .navbar-toggler-icon {
+        background-color: #fff; /* Couleur de l'icône du bouton de bascule */
+      }
+
+      .navbar-nav .nav-link {
+        color: #fff; /* Couleur du texte des liens de la navbar */
+      }
+
+      .navbar-nav .nav-link.active {
+        color: #f39c12; /* Couleur du texte du lien actif */
+      }
+
+      .styled-paragraph {
+        font-size: 1.25rem;
+        color: #3498db; /* Couleur du texte */
+        font-weight: bold;
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Raudi</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link active" aria-current="page" href="index.html"
+              >Home</a
+            >
+            <a class="nav-link" href="login.html">Login</a>
+            <a class="nav-link" href="register.html">Register</a>
           </div>
         </div>
-      </nav>
+      </div>
+    </nav>
 
     <h1 class="mb-4">Personnaliser</h1>
 
@@ -41,53 +73,54 @@
     <h2>Prix</h2>
     <p id="Price">0€</p>
 
-    <button class="btn btn-primary" onclick="calculateTotalOnServer()">Total</button>
-
+    <button class="btn btn-primary" onclick="calculateTotalOnServer()">
+      Total
+    </button>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const optionsList = document.getElementById('optionsList');
-            const totalPriceElement = document.getElementById('totalPrice');
+      document.addEventListener("DOMContentLoaded", function () {
+        const optionsList = document.getElementById("optionsList");
+        const totalPriceElement = document.getElementById("totalPrice");
 
-            // Fetch des options depuis le backend
-            fetch('/options')
-                .then(response => response.json())
-                .then(options => {
-                    options.forEach(option => {
-                        const checkbox = document.createElement('input');
-                        checkbox.type = 'checkbox';
-                        checkbox.id = `option${option.id}`;
-                        checkbox.setAttribute('data-prix', option.prix);
-                        checkbox.addEventListener('change', calculateTotal);
+        // Fetch des options depuis le backend
+        fetch("/options")
+          .then((response) => response.json())
+          .then((options) => {
+            options.forEach((option) => {
+              const checkbox = document.createElement("input");
+              checkbox.type = "checkbox";
+              checkbox.id = `option${option.id}`;
+              checkbox.setAttribute("data-prix", option.prix);
+              checkbox.addEventListener("change", calculateTotal);
 
-                        const label = document.createElement('label');
-                        label.htmlFor = `option${option.id}`;
-                        label.textContent = `${option.nom} (+${option.prix}€)`;
+              const label = document.createElement("label");
+              label.htmlFor = `option${option.id}`;
+              label.textContent = `${option.nom} (+${option.prix}€)`;
 
-                        optionsList.appendChild(checkbox);
-                        optionsList.appendChild(label);
-                        optionsList.appendChild(document.createElement('br'));
-                    });
-                })
-                .catch(error => console.error('Error fetching options:', error));
+              optionsList.appendChild(checkbox);
+              optionsList.appendChild(label);
+              optionsList.appendChild(document.createElement("br"));
+            });
+          })
+          .catch((error) => console.error("Error fetching options:", error));
+      });
+
+      function calculateTotal() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        let totalPrix = 0;
+
+        checkboxes.forEach((checkbox) => {
+          if (checkbox.checked) {
+            totalPrix += parseFloat(checkbox.getAttribute("data-prix")) || 0;
+          }
         });
 
-        function calculateTotal() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            let totalPrix = 0;
-
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    totalPrix += parseFloat(checkbox.getAttribute('data-prix')) || 0;
-                }
-            });
-
-            totalPriceElement.textContent = `${totalPrix.toFixed(2)}€`;
-        }
+        totalPriceElement.textContent = `${totalPrix.toFixed(2)}€`;
+      }
     </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+  </body>
 </html>

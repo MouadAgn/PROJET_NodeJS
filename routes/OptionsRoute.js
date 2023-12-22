@@ -4,8 +4,12 @@ const optionsController = require("../controllers/OptionsController");
 
 router.post("/create", optionsController.createOptions);
 
-router.get("/alloptions", optionsController.getAllOptions);
+router.get("/", optionsController.getAllOptions);
 
- router.get("/:id", optionsController.getOptionsById);
+router.get("/:id", optionsController.getOptionsById);
+
+router.post('/opmodassocier/:id', optionsController.addOptionToModele);
+
+//router.get("/:id", optionsController.getOptionsById);
 
 module.exports = router;
