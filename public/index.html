@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Liste des Modèles</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <style>
+      /* Ajoutez vos styles personnalisés ici si nécessaire */
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Raudi</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link active" aria-current="page" href="index.html"
+              >Home</a
+            >
+            <a class="nav-link" href="login.html">Login</a>
+            <a class="nav-link" href="register.html">Register</a>
+            <a class="nav-link" href="history.html">History</a>
+            <a class="nav-link" href="customize.html">Customize</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      <h2>Liste des Modèles</h2>
+      <div class="row" id="modeleContainer"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch("http://localhost:3000/modeles/create")
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            const modeles = data;
+
+            const modeleContainer = document.getElementById("modeleContainer");
+            modeles.forEach((modele) => {
+              const modeleCard = document.createElement("div");
+              modeleCard.className = "col-md-4 mb-4";
+              modeleCard.innerHTML = `
+                            <div class="card">
+                                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Image du Modèle">
+                                <div class="card-body">
+                                    <h5 class="card-title">${modele.nom}</h5>
+                                    <p class="card-text">Carburant: ${modele.carburant}</p>
+                                    <p class="card-text">Portes: ${modele.portes}</p>
+                                    <p class="card-text">Gabarit: ${modele.gabarit}</p>
+                                    <p class="card-text">Poids: ${modele.poids}</p>
+                                    <p class="card-text">Prix: ${modele.prix}</p>
+                                    <!-- Ajoutez d'autres informations du modèle ici -->
+                                    <a href="#" class="btn btn-primary">Détails</a>
+                                </div>
+                            </div>
+                        `;
+              modeleContainer.appendChild(modeleCard);
+            });
+          })
+          .catch((error) =>
+            console.error("Erreur lors de la récupération des modèles:", error)
+          );
+      });
+    </script>
+  </body>
+</html>
