@@ -27,7 +27,7 @@
               <a class="nav-link" href="login.html">Login</a>
               <a class="nav-link" href="register.html">Register</a>
               <a class="nav-link" href="history.html">History</a>
-              <a class="nav-link" href="customize.html">Customize</a>
+    
             </div>
           </div>
         </div>
@@ -56,11 +56,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                // Effectuez une requête AJAX pour obtenir les données d'historique depuis le serveur
-                const response = await fetch('http://localhost:3000/purchase');  // Assurez-vous que l'URL est correcte
+                
+                const response = await fetch('http://localhost:3000/allpurchases');  
                 const historiqueData = await response.json();
 
-                // Remplissez la table avec les données d'historique
+              
                 const historiqueBody = document.getElementById('historiqueBody');
                 const gainTotalMois = document.getElementById('gainTotalMois');
 
@@ -85,17 +85,15 @@
                 gainTotalMois.textContent = totalGainMois;
             } catch (error) {
                 console.error('Erreur lors de la récupération des données d\'historique:', error);
-                // Gérez l'erreur, affichez un message à l'utilisateur, etc.
+            
             }
         });
 
         function formatOptions(options) {
-            // Formatez les options pour les afficher dans une seule chaîne
             return options.map(option => option.nom).join(', ');
         }
 
         function calculateTotalPrice(achat) {
-            // Calculez le prix total en tenant compte des options personnalisées
             let totalPrice = achat.modele.prix;
 
             if (achat.options && achat.options.length > 0) {

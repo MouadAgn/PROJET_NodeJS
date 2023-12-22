@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken');
 const user = require("../models/UserModel");
 
-
-exports.isAdmin = async (req, res, next) => {
+exports.isClient = async (req, res, next) => {
     const token = req.query.token ? req.query.token : req.headers.authorization;
     console.log('test');
     if (token && process.env.API_KEY) {
@@ -16,10 +15,10 @@ exports.isAdmin = async (req, res, next) => {
                     const query = await user.findOne({where:{email:userEmail}})
                     console.log(query.dataValues.role);
 
-                    if (query.dataValues.role === 'ADMIN') {
+                    if (query.dataValues.role === 'CLIENT') {
                         next(); 
                     } else {
-                        res.status(403).json({ error: 'Permission denied. User is not an admin.' });
+                        res.status(403).json({ error: 'Permission denied. User is not an client.' });
                     }
                 } catch (dbError) {
                     console.error(dbError);

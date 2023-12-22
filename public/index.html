@@ -18,6 +18,7 @@
   </head>
 
   <body>
+    <!-- Barre de navigation -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Raudi</a>
@@ -40,7 +41,8 @@
             <a class="nav-link" href="login.html">Login</a>
             <a class="nav-link" href="register.html">Register</a>
             <a class="nav-link" href="history.html">History</a>
-            <a class="nav-link" href="customize.html">Customize</a>
+
+     
           </div>
         </div>
       </div>
@@ -48,20 +50,36 @@
 
     <div class="container mt-4">
       <h2>Liste des Modèles</h2>
-      <div class="row" id="modeleContainer"></div>
+      <br /><br />
+      <div class="row" id="modeleContainer">
+        <!-- Les modèles  -->
+      </div>
+
+      <button id="btnAjouter" class="btn btn-info">
+        <a href="ajoutModel.html"> Ajouter un modele</a>
+      </button>
     </div>
 
+    <!-- Bootstrap JavaScript (jQuery, Popper.js, Bootstrap JS) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+    <!-- Script pour récupérer les modèles depuis le contrôleur -->
     <script>
+        function redirigerVersCustomize() {
+        window.location.href = 'customize.html';
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+    
+    });
       document.addEventListener("DOMContentLoaded", function () {
-        fetch("http://localhost:3000/modeles/create")
+        // Utilisez Fetch pour récupérer les modèles depuis votre API
+        fetch("http://localhost:3000/modeles") // Assurez-vous que l'URL est correcte selon votre configuration
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
-            const modeles = data;
+            const modeles = data; // Les modèles récupérés depuis l'API
 
             const modeleContainer = document.getElementById("modeleContainer");
             modeles.forEach((modele) => {
@@ -69,18 +87,33 @@
               modeleCard.className = "col-md-4 mb-4";
               modeleCard.innerHTML = `
                             <div class="card">
-                                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Image du Modèle">
+                                <img src="R1.png" class="card-img-top" alt="Image du Modèle">
                                 <div class="card-body">
                                     <h5 class="card-title">${modele.nom}</h5>
-                                    <p class="card-text">Carburant: ${modele.carburant}</p>
-                                    <p class="card-text">Portes: ${modele.portes}</p>
-                                    <p class="card-text">Gabarit: ${modele.gabarit}</p>
-                                    <p class="card-text">Poids: ${modele.poids}</p>
-                                    <p class="card-text">Prix: ${modele.prix}</p>
-                                    <!-- Ajoutez d'autres informations du modèle ici -->
-                                    <a href="#" class="btn btn-primary">Détails</a>
+                                    <button class="btn btn-primary" data-toggle="collapse" data-target="#details${modele.nom}">
+                                        Détails
+                                    </button>
+                                    <button class="btn btn-primary" onclick="redirigerVersCustomize()">
+                                            Acheter
+                                        </button>
+
+                                    
+                                    <br>
+                                    <div id="details${modele.nom}" class="collapse"><br>
+                      
+                                        <p><b>Carburant:</b> ${modele.carburant}</p>
+                                        <p><b>Portes:</b> ${modele.portes}</p>
+                                        <p><b>Gabarit:</b> ${modele.gabarit}</p>
+                                        <p><b>Poids:</b> ${modele.poids}</p>
+                                        <p><b>Prix:</b> ${modele.prix}</p>
+                                      
+                                    </div>
+                                   
+                                  
                                 </div>
+                                
                             </div>
+                            
                         `;
               modeleContainer.appendChild(modeleCard);
             });
