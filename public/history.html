@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            
+            /* Ajoutez vos styles personnalisés ici */
+            .navbar {
+                background-color: #3498db; /* Couleur de fond de la navbar */
+            }
+    
+            .navbar-brand {
+                color: #fff; /* Couleur du texte du logo */
+            }
+    
+            .navbar-toggler-icon {
+                background-color: #fff; /* Couleur de l'icône du bouton de bascule */
+            }
+    
+            .navbar-nav .nav-link {
+                color: #fff; /* Couleur du texte des liens de la navbar */
+            }
+    
+            .navbar-nav .nav-link.active {
+                color: #f39c12; /* Couleur du texte du lien actif */
+            }
+
+            .styled-paragraph {
+            font-size: 1.25rem;
+            color: #3498db; /* Couleur du texte */
+            font-weight: bold;
+            margin-top: 8px;
+            }
+            
+        </style>
+        <title>Navbar Stylish</title>
+    </head>
+    
+    <body>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="#">Raudi</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                        <a class="nav-link" href="login.html">Login</a>
+                        <a class="nav-link" href="register.html">Register</a>
+                        <a class="nav-link" href="history.html">History</a>
+                        <a class="nav-link" href="adminpanel.html">Admin Panel</a>
+                        <a class="nav-link" href="ajouteroption.html">Option</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+    <div class="container mt-5">
+        <h1>Historique des Achats</h1>
+        <div class="table-responsive">
+            <table class="table mt-4">
+                <thead>
+                    <tr>
+                        <th scope="col">Client</th>
+                        <th scope="col">Modèle</th>
+                        <th scope="col">Prix Total</th>
+                        <th scope="col">Date</th>
+                    </tr>
+
+                </thead>
+               
+            </table>
+        </div>
+        
+    </div>
+
+    <div class="container mt-4">
+        <p class="styled-paragraph">Gain Total par Mois: <span id="gainTotalMois"></span></p>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Effectuez une requête AJAX pour obtenir les données d'historique depuis le serveur
+                const response = await fetch('http://localhost:3000/purchase');  // Assurez-vous que l'URL est correcte
+                const historiqueData = await response.json();
+
+                // Remplissez la table avec les données d'historique
+                const historiqueBody = document.getElementById('historiqueBody');
+                const gainTotalMois = document.getElementById('gainTotalMois');
+
+                let totalGainMois = 0;
+
+                historiqueData.forEach((achat, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <th scope="row">${index + 1}</th>
+                        <td>${achat.client.nom}</td>
+                        <td>${achat.modele.nom}</td>
+                        <td>${calculateTotalPrice(achat)}</td>
+                        <td>${achat.date}</td>
+                    `;
+                    historiqueBody.appendChild(row);
+
+                    totalGainMois += calculateTotalPrice(achat);
+                });
+
+                // Affichez le gain total par mois
+                gainTotalMois.textContent = totalGainMois;
+            } catch (error) {
+                console.error('Erreur lors de la récupération des données d\'historique:', error);
+                // Gérez l'erreur, affichez un message à l'utilisateur, etc.
+            }
+        });
+
+        function calculateTotalPrice(achat) {
+            // Calculez le prix total en tenant compte des options personnalisées
+            let totalPrice = achat.modele.prix;
+
+            if (achat.options && achat.options.length > 0) {
+                totalPrice += achat.options.reduce((total, option) => total + option.prix_option, 0);
+            }
+
+            return totalPrice;
+        }
+    </script>
+</body>
+
+</html>

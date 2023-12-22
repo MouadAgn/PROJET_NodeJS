@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css" rel="stylesheet">
+    <title>Page de Connexion</title>
+
+    <style>
+        /* Ajoutez vos styles personnalisés ici */
+        .navbar {
+            background-color: #3498db; /* Couleur de fond de la navbar */
+        }
+
+        .navbar-brand {
+            color: #fff; /* Couleur du texte du logo */
+        }
+
+        .navbar-toggler-icon {
+            background-color: #fff; /* Couleur de l'icône du bouton de bascule */
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff; /* Couleur du texte des liens de la navbar */
+        }
+
+        .navbar-nav .nav-link.active {
+            color: #f39c12; /* Couleur du texte du lien actif */
+        }
+
+        .styled-paragraph {
+            font-size: 1.25rem;
+            color: #3498db; /* Couleur du texte */
+            font-weight: bold;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">Raudi</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    <a class="nav-link" href="login.html">Login</a>
+                    <a class="nav-link" href="register.html">Register</a>
+                    <a class="nav-link" href="history.html">History</a>
+                    <a class="nav-link" href="adminpanel.html">Admin Panel</a>
+                    <a class="nav-link" href="ajouteroption.html">Option</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container login-container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Connexion</div>
+                    <div class="card-body">
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label for="email">Email :</label>
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    id="email"
+                                    name="email"
+                                    autocomplete="email"
+                                    required
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Mot de passe :</label>
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    id="password"
+                                    required
+                                />
+                            </div>
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                onclick="validateLogin()"
+                            >
+                                Connexion
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+  
+    function validateLogin() {
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+
+        // fetch api route
+        fetch("http://localhost:3000/users/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        })
+            .then((response) => response.json("tzt"))
+            .then((data) => {
+                console.log(data);
+                if (data.token) {
+                    // Obtenir le nom d'utilisateur à partir des données de l'API (ajoutez cette ligne si votre API renvoie le nom d'utilisateur)
+                   
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Connexion réussie!',
+                        text: 'Bienvenue !',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            localStorage.setItem("userToken", data.token);
+                            window.location.href = "index.html";
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erreur de Connexion',
+                        text: 'Veuillez vérifier vos informations de connexion.',
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error("Erreur :", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: 'Une erreur s\'est produite. Veuillez réessayer.',
+                });
+            });
+    }
+
+
+    </script>
+</body>
+</html>

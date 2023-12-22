@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database');
 
-const User = sequelize.define('User', {
-    id_user: {
+const Modele = sequelize.define('Modele', {
+    id_modele: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -12,18 +12,27 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: false,
     }, 
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    }, 
-    password: {
+    carburant: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    role: {
+    portes: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    gabarit: {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    poids: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+    prix: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+
 }, {
     freezeTableName: true,
     timestamps: false,
@@ -31,4 +40,6 @@ const User = sequelize.define('User', {
 
 
 
-module.exports = User;
+
+
+module.exports = Modele;
