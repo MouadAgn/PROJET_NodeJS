@@ -1,6 +1,6 @@
-
 const sequelize = require("../database/database");
 const { DataTypes } = require("sequelize");
+const Modele = require('./Modele')
 
 const options = sequelize.define("options",
   {
@@ -20,6 +20,8 @@ const options = sequelize.define("options",
       },
     
     
+
+  
   },
   {
     sequelize,
@@ -27,5 +29,8 @@ const options = sequelize.define("options",
     timestamps:false
   }
 );
+
+options.belongsToMany(Modele, { through: 'options_modele' });
+Modele.belongsToMany(options, { through: 'options_modele' });
 
 module.exports = options;

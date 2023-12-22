@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const app = express();
 const ModeleController = require('../controllers/ModeleController'); 
 const middlewareadmin = require('../middleware/admin');
 
 router.post('/create', middlewareadmin.isAdmin, ModeleController.createModele); 
 router.get('/', ModeleController.getAllModeles); 
-router.get('/modele/:id', ModeleController.getModeleById); 
-
+router.get('/:id', ModeleController.getModeleById); 
+router.get('/opmodassocier/:id', ModeleController.getAllOptionModele);
+router.delete('/delete/:id', middlewareadmin.isAdmin, ModeleController.deleteModele);
+router.put('/update/:id', middlewareadmin.isAdmin, ModeleController.updateModele);
 
 module.exports = router;
  

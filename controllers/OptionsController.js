@@ -1,6 +1,6 @@
 const pool = require("../database/database");
 const Options = require("../models/OptionsModel");
-
+const Modele = require("../models/Modele");
 
   
   exports.createOptions = async (req, res) => {
@@ -30,8 +30,6 @@ const Options = require("../models/OptionsModel");
   };
   
   
-
-
   exports.getAllOptions = async (req, res) => {
     try {
 
@@ -46,7 +44,6 @@ const Options = require("../models/OptionsModel");
   
   exports.getOptionsById = async (req, res) => {
     const optionsId = req.params.id; 
-  
     try {
       
       const options = await Options.findByPk(optionsId);
@@ -63,4 +60,29 @@ const Options = require("../models/OptionsModel");
     }
   };
   
+  
+  exports.addOptionToModele = async (req, res) => {
+    try {
+        const idModele = req.params.id_module;
+        const idOption = req.body.id_option;
 
+        // Vérifier si le modèle existe
+        const modeleFound = await Modele.findByPk(idModele);
+        console.log(modeleFound)
+        if (!modeleFound) {
+            return res.status(400).json({ message: "Modèle introuvable" });
+        }
+
+        // Vérifier si l'option existe
+        const optionFound = await Options.findByPk(idOption);
+        if (!optionFound) {
+            return res.status(400).json({ message: "Option introuvable" });
+        }
+
+        modeleFound.addOptions(optionFound);
+
+        res.status(201).json({ message: "Option ajoutée au modèle" });
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+};
