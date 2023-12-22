@@ -78,7 +78,7 @@ exports.getModeleById= async (req, res) => {
 exports.deleteModele = async (req, res) => {
     try {
         const idModele = req.params.id;
-
+        console.log(idModele)
         // Vérifier si le modèle existe
         const modeleFound = await Modele.findByPk(idModele);
         if (!modeleFound) {

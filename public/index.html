@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Liste des Modèles</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js
+"></script>
+<link href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
+" rel="stylesheet">
+    <style>
+      #btnAjouter {
+            background-color: #17a2b8; /* Couleur de fond du bouton */
+            border-color: #17a2b8; /* Couleur de la bordure du bouton */
+        }
+
+        #btnAjouter a {
+            color: #fff; /* Couleur du texte du lien */
+            text-decoration: none; /* Supprime le soulignement du lien */
+        }
+
+        #btnAjouter:hover {
+            background-color: #117a8b; /* Couleur de fond du bouton au survol */
+            border-color: #117a8b; /* Couleur de la bordure du bouton au survol */
+        }
+
+        #btnAjouter:hover a {
+            color: #fff; /* Couleur du texte du lien au survol */
+        }
+    </style>
+  </head>
+
+  <body>
+    <!-- Barre de navigation -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Raudi</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link active" aria-current="page" href="index.html"
+              >Home</a
+            >
+            <a class="nav-link" href="login.html">Login</a>
+            <a class="nav-link" href="register.html">Register</a>
+            <a class="nav-link" href="history.html">History</a>
+            <a class="nav-link" href="adminpanel.html">Admin Panel</a>
+
+     
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      <h2>Liste des Modèles</h2>
+      <br /><br />
+      <div class="row" id="modeleContainer">
+        <!-- Les modèles  -->
+      </div>
+
+
+    
+    </div>
+
+    <!-- Bootstrap JavaScript (jQuery, Popper.js, Bootstrap JS) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Script pour récupérer les modèles depuis le contrôleur -->
+    <script>
+        function redirigerVersCustomize(id) {
+        window.location.href = `customize.php?modeleid=${id}`;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+    
+    });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Utilisez Fetch pour récupérer les modèles depuis votre API
+        fetch("http://localhost:3000/modeles") // Assurez-vous que l'URL est correcte selon votre configuration
+          .then((response) => response.json())
+          .then((data) => {
+            const modeles = data; // Les modèles récupérés depuis l'API
+
+            const modeleContainer = document.getElementById("modeleContainer");
+            modeles.forEach((modele) => {
+              const modeleCard = document.createElement("div");
+              modeleCard.className = "col-md-4 mb-4";
+              modeleCard.innerHTML = `
+                            <div class="card">
+                                <img src="Design.png" class="card-img-top" alt="Image du Modèle">
+                                <div class="card-body">
+                                    <h5 class="card-title">${modele.nom}</h5>
+                                    <button class="btn btn-primary" data-toggle="collapse" data-target="#details${modele.nom}">
+                                        Détails
+                                    </button>
+                                    <button class="btn btn-primary" onclick="redirigerVersCustomize(${modele.id_modele})">
+                                            Acheter
+                                        </button>
+
+                                    
+                                    <br>
+                                    <div id="details${modele.nom}" class="collapse"><br>
+                      
+                                        <p><b>Carburant:</b> ${modele.carburant}</p>
+                                        <p><b>Portes:</b> ${modele.portes}</p>
+                                        <p><b>Gabarit:</b> ${modele.gabarit}</p>
+                                        <p><b>Poids:</b> ${modele.poids}</p>
+                                        <p><b>Prix:</b> ${modele.prix}</p>
+                                      
+                                    </div>
+                                   
+                                  
+                                </div>
+                                
+                            </div>
+                            
+                        `;
+              modeleContainer.appendChild(modeleCard);
+            });
+          })
+          .catch((error) =>
+            console.error("Erreur lors de la récupération des modèles:", error)
+          );
+      });
+    </script>
+  </body>
+</html>
