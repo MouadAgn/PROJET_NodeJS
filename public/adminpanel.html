@@ -19,6 +19,25 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js
 https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
 " rel="stylesheet">
     <style>
+                    .navbar {
+                background-color: #3498db; /* Couleur de fond de la navbar */
+            }
+    
+            .navbar-brand {
+                color: #fff; /* Couleur du texte du logo */
+            }
+    
+            .navbar-toggler-icon {
+                background-color: #fff; /* Couleur de l'icône du bouton de bascule */
+            }
+    
+            .navbar-nav .nav-link {
+                color: #fff; /* Couleur du texte des liens de la navbar */
+            }
+    
+            .navbar-nav .nav-link.active {
+                color: #f39c12; /* Couleur du texte du lien actif */
+            }
       #btnAjouter {
             background-color: #17a2b8; /* Couleur de fond du bouton */
             border-color: #17a2b8; /* Couleur de la bordure du bouton */
@@ -144,7 +163,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
                                     <button class="btn btn-primary" onclick="redirigerVersCustomize()">
                                         Ajouter Option
                                     </button>
-                                    <button class="btn btn-primary" onclick="redirigerVersCustomize()">
+                                    <button class="btn btn-primary" onclick="redirigerVersEditModele(${modele.id_modele})">
                                         Modifier
                                     </button>
                                     <br>
@@ -157,7 +176,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
                                     </div>
                                 </div>
                             </div>
-                        `;
+                    `;
                         modeleContainer.appendChild(modeleCard);
                     });
                 })
@@ -165,6 +184,13 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
                     console.error("Erreur lors de la récupération des modèles:", error)
                 );
         });
+        
+        function redirigerVersEditModele(idModele) {
+            // Rediriger vers EditModele.html avec l'ID du modèle
+            window.location.href = `editModele.html?id=${idModele}`;
+        }
+
+    
     </script>
     
   </body>

@@ -19,6 +19,25 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js
 https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
 " rel="stylesheet">
     <style>
+                  .navbar {
+                background-color: #3498db; /* Couleur de fond de la navbar */
+            }
+    
+            .navbar-brand {
+                color: #fff; /* Couleur du texte du logo */
+            }
+    
+            .navbar-toggler-icon {
+                background-color: #fff; /* Couleur de l'icône du bouton de bascule */
+            }
+    
+            .navbar-nav .nav-link {
+                color: #fff; /* Couleur du texte des liens de la navbar */
+            }
+    
+            .navbar-nav .nav-link.active {
+                color: #f39c12; /* Couleur du texte du lien actif */
+            }
       #btnAjouter {
             background-color: #17a2b8; /* Couleur de fond du bouton */
             border-color: #17a2b8; /* Couleur de la bordure du bouton */
@@ -42,35 +61,27 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
 
   <body>
     <!-- Barre de navigation -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Raudi</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="index.html"
-              >Home</a
-            >
-            <a class="nav-link" href="login.html">Login</a>
-            <a class="nav-link" href="register.html">Register</a>
-            <a class="nav-link" href="history.html">History</a>
-            <a class="nav-link" href="adminpanel.html">Admin Panel</a>
-
-     
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+          <a class="navbar-brand" href="#">Raudi</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                  <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                  <a class="nav-link" href="login.html">Login</a>
+                  <a class="nav-link" href="register.html">Register</a>
+                  <a class="nav-link" href="history.html">History</a>
+                  <a class="nav-link" href="customize.html">Customize</a>
+                  <a class="nav-link" href="adminpanel.html">Admin Panel</a>
+              </div>
           </div>
-        </div>
       </div>
-    </nav>
+  </nav>
+                  
+
 
     <div class="container mt-4">
       <h2>Liste des Modèles</h2>

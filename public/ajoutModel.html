@@ -11,6 +11,27 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js
 https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
 " rel="stylesheet">
     <title>Ajouter un Modèle</title>
+    <style>
+                    .navbar {
+                background-color: #3498db; /* Couleur de fond de la navbar */
+            }
+    
+            .navbar-brand {
+                color: #fff; /* Couleur du texte du logo */
+            }
+    
+            .navbar-toggler-icon {
+                background-color: #fff; /* Couleur de l'icône du bouton de bascule */
+            }
+    
+            .navbar-nav .nav-link {
+                color: #fff; /* Couleur du texte des liens de la navbar */
+            }
+    
+            .navbar-nav .nav-link.active {
+                color: #f39c12; /* Couleur du texte du lien actif */
+            }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -34,11 +55,12 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
               <a class="nav-link" href="register.html">Register</a>
               <a class="nav-link" href="history.html">History</a>
               <a class="nav-link" href="customize.html">Customize</a>
+              <a class="nav-link" href="adminpanel.html">Admin Panel</a>
             </div>
           </div>
         </div>
       </nav>
-    <div class="container mt-5">
+      <div class="container mt-5">
         <h1>Ajouter un Modèle</h1>
 
         <form id="ajoutModeleForm">
@@ -72,8 +94,6 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
                 <input type="number" class="form-control" id="prix" step="0.01" required>
             </div>
 
-        
-
             <button type="button" class="btn btn-primary" onclick="ajouterModele()">Ajouter Modèle</button>
         </form>
     </div>
@@ -83,42 +103,60 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-       function ajouterModele() {
-    
-    const nom = document.getElementById('nom').value;
-    const carburant = document.getElementById('carburant').value;
-    const portes = document.getElementById('portes').value;
-    const gabarit = document.getElementById('gabarit').value;
-    const poids = document.getElementById('poids').value;
-    const prix = document.getElementById('prix').value;
+        function ajouterModele() {
+            // Validation supplémentaire avant l'envoi du formulaire
+            const nom = document.getElementById('nom').value;
+            const carburant = document.getElementById('carburant').value;
+            const portes = document.getElementById('portes').value;
+            const gabarit = document.getElementById('gabarit').value;
+            const poids = document.getElementById('poids').value;
+            const prix = document.getElementById('prix').value;
 
-  
-    fetch('http://localhost:3000/modeles/create', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            nom,
-            carburant,
-            portes,
-            gabarit,
-            poids,
-            prix,
-        }),
-    })
-    .then(response => response.json())
-    .then(newModele => {
-        
-        console.log('Modèle ajouté avec succès :', newModele);
-        alert("Ajout du Model avec success!")
+            if (!nom || !carburant || !portes || !gabarit || !poids || !prix) {
+                // Afficher une alerte en utilisant la bibliothèque SweetAlert2
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: 'Veuillez remplir tous les champs obligatoires.',
+                });
+                return; // Empêche l'envoi du formulaire si des champs sont vides
+            }
 
-    })
-    .catch(erreur => {
-        console.error('Erreur lors de l\'ajout du modèle :', erreur);
-    });
-}
-
+            // Le reste de votre code pour envoyer la requête au serveur
+            fetch('http://localhost:3000/modeles/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nom,
+                    carburant,
+                    portes,
+                    gabarit,
+                    poids,
+                    prix,
+                }),
+            })
+            .then(response => response.json())
+            .then(newModele => {
+                console.log('Modèle ajouté avec succès :', newModele);
+                // Afficher une alerte en utilisant la bibliothèque SweetAlert2
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Succès',
+                    text: 'Modèle ajouté avec succès!',
+                });
+            })
+            .catch(erreur => {
+                console.error('Erreur lors de l\'ajout du modèle :', erreur);
+                // Afficher une alerte en utilisant la bibliothèque SweetAlert2
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: 'Une erreur s\'est produite lors de l\'ajout du modèle.',
+                });
+            });
+        }
     </script>
 </body>
 </html>
