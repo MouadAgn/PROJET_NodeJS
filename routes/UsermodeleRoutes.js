@@ -8,4 +8,4 @@ router.get('/allpurchases', middlewarecomptable.isComptable, user_modelecontroll
 router.post('/:id_modele', middlewareclient.isClient, user_modelecontroller.purchase);
 router.get('/total', middlewarecomptable.isComptable, user_modelecontroller.getMonthTotal);
 
-module.exports = router;    
+module.exports = router;

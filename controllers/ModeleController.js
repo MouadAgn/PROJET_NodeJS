@@ -65,14 +65,13 @@ exports.getModeleById= async (req, res) => {
 //  Delete Modele BY ID 
 
 exports.deleteModele = async (req, res) => {
-    try {
-        const idModele = req.params.id;
-        
-        // Vérifier si le modèle existe
-        const modeleFound = await Modele.findByPk(idModele);
-        if (!modeleFound) {
-            return res.status(400).json({ message: "Modèle introuvable" });
-        }
+  try {
+      const idModele = req.params.id;
+
+      const modeleFound = await Modele.findByPk(idModele);
+      if (!modeleFound) {
+          return res.status(400).json({ message: "Modèle introuvable" });
+      }
 
       await modeleFound.destroy();
 
