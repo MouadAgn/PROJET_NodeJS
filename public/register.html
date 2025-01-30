@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <title>Register Page</title>
+    <style>
+
+body {
+            text-align: center;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        h1 {
+            margin-bottom: 5Opx;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+            
+            /* Ajoutez vos styles personnalisés ici */
+            .navbar {
+                background-color: #3498db; /* Couleur de fond de la navbar */
+            }
+    
+            .navbar-brand {
+                color: #fff; /* Couleur du texte du logo */
+            }
+    
+            .navbar-toggler-icon {
+                background-color: #fff; /* Couleur de l'icône du bouton de bascule */
+            }
+    
+            .navbar-nav .nav-link {
+                color: #fff; /* Couleur du texte des liens de la navbar */
+            }
+    
+            .navbar-nav .nav-link.active {
+                color: #f39c12; /* Couleur du texte du lien actif */
+            }
+
+            .styled-paragraph {
+            font-size: 1.25rem;
+            color: #3498db; /* Couleur du texte */
+            font-weight: bold;
+            margin-top: 8px;
+            }
+            
+        </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">Raudi</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    <a class="nav-link" href="login.html">Login</a>
+                    <a class="nav-link" href="register.html">Register</a>
+                    <a class="nav-link" href="history.html">History</a>
+                    <a class="nav-link" href="customize.html">Customize</a>
+                    <a class="nav-link" href="adminpanel.html">Admin Panel</a>
+                   
+                </div>
+            </div>
+        </div>
+    </nav>
+<br><br>
+<h1> Welcome to Raudi</h1>
+<h1> Sign up </h1><br>
+<div class="container register-container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Register
+                </div>
+                <div class="card-body">
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" id="nom" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="text" class="form-control" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="registerUser()">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+      function redirectToHome() {
+        window.location.replace('index.html');
+    }
+    function registerUser() {
+        var nom = document.getElementById("nom").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+
+        fetch('http://localhost:3000/users/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                nom: nom, 
+                email: email,
+                password: password,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.token) {
+                alert('Registration successful! Token: ' + data.token);
+
+           
+                redirectToHome();
+
+              
+            } else {
+                alert('Registration failed. ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    }
+</script>
+
+
+</body>
+</html>
